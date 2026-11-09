@@ -261,4 +261,4 @@ Cada aplicación separa la estructura (HTML), la presentación (CSS) y la intera
 - La hoja actual es una cuadrícula fija de 8 × 24; exporta ODS, pero no importa hojas existentes.
 - Markdown no tiene representación estándar para todos los estilos visuales; la fidelidad de colores y detalles depende del visor.
 - Algunos ODT comprimidos requieren `DecompressionStream("deflate-raw")`; si el navegador no lo implementa, otros ODT compatibles pueden no abrirse.
-- No se declara una licencia de software en este proyecto. Añade un archivo `LICENSE` antes de redistribuirlo bajo una licencia concreta.
+
