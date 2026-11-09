@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10101b">
+  <link rel="stylesheet" href="styles.css">
+  <title>Calculadora científica</title>
+
+</head>
+<body>
+  <main class="calculator" aria-label="Calculadora científica">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">∑</div>
+        <div>
+          <h1>Calculadora científica</h1>
+          <p class="subtitle">Precisión para cada operación</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="mode-row">
+      <span class="mode-label">Modo angular</span>
+      <div class="mode-switch" aria-label="Modo angular">
+        <button type="button" data-mode="DEG" aria-pressed="true">DEG</button>
+        <button type="button" data-mode="RAD" aria-pressed="false">RAD</button>
+      </div>
+    </div>
+
+    <section class="display" aria-live="polite" aria-atomic="true">
+      <div class="display-meta"><span id="display-mode">DEG</span><span id="display-status">LISTA</span></div>
+      <div class="expression" id="expression"> </div>
+      <div class="result" id="result">0</div>
+    </section>
+
+    <section class="keypad" aria-label="Teclas de la calculadora">
+      <button class="key scientific" data-insert="sin(" aria-label="seno">sin</button>
+      <button class="key scientific" data-insert="cos(" aria-label="coseno">cos</button>
+      <button class="key scientific" data-insert="tan(" aria-label="tangente">tan</button>
+      <button class="key scientific" data-insert="(">(</button>
+      <button class="key scientific" data-insert=")">)</button>
+
+      <button class="key scientific" data-insert="asin(" aria-label="arcoseno">sin⁻¹</button>
+      <button class="key scientific" data-insert="acos(" aria-label="arcocoseno">cos⁻¹</button>
+      <button class="key scientific" data-insert="atan(" aria-label="arcotangente">tan⁻¹</button>
+      <button class="key scientific" data-insert="pi">π</button>
+      <button class="key scientific" data-insert="e">e</button>
+
+      <button class="key scientific" data-insert="sqrt(" aria-label="raíz cuadrada">√</button>
+      <button class="key scientific" data-insert="cbrt(" aria-label="raíz cúbica">∛</button>
+      <button class="key scientific" data-insert="log(" aria-label="logaritmo base 10">log</button>
+      <button class="key scientific" data-insert="ln(" aria-label="logaritmo natural">ln</button>
+      <button class="key scientific" data-insert="^">xʸ</button>
+
+      <button class="key utility" data-action="clear" aria-label="Borrar todo">AC</button>
+      <button class="key utility" data-action="backspace" aria-label="Borrar último carácter">⌫</button>
+      <button class="key scientific" data-insert="!">x!</button>
+      <button class="key scientific" data-insert="%">%</button>
+      <button class="key operator" data-insert="/">÷</button>
+
+      <button class="key" data-insert="7">7</button>
+      <button class="key" data-insert="8">8</button>
+      <button class="key" data-insert="9">9</button>
+      <button class="key operator" data-insert="*">×</button>
+      <button class="key operator" data-insert="-">−</button>
+
+      <button class="key" data-insert="4">4</button>
+      <button class="key" data-insert="5">5</button>
+      <button class="key" data-insert="6">6</button>
+      <button class="key operator" data-insert="+">+</button>
+      <button class="key operator" data-insert="^2">x²</button>
+
+      <button class="key" data-insert="1">1</button>
+      <button class="key" data-insert="2">2</button>
+      <button class="key" data-insert="3">3</button>
+      <button class="key" data-insert="0">0</button>
+      <button class="key" data-insert=".">.</button>
+
+      <button class="key scientific" data-insert="abs(" aria-label="valor absoluto">|x|</button>
+      <button class="key scientific" data-insert="(">(</button>
+      <button class="key scientific" data-insert=")">)</button>
+      <button class="key scientific" data-action="sign">±</button>
+      <button class="key equals" data-action="equals" aria-label="Calcular">=</button>
+    </section>
+
+    <p class="footer">También puedes usar el teclado · <kbd>Enter</kbd> calcular · <kbd>Esc</kbd> borrar</p>
+  </main>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
