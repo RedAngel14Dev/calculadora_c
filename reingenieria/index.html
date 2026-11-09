@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11121b">
+  <meta name="description" content="Calculadora, graficadora, hoja de cálculo y editor de documentos con motor WebAssembly.">
+  <link rel="stylesheet" href="styles.css">
+  <title>Aplicaciones WebAssembly</title>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" data-screen="home"><span class="brand-icon">W</span><span><strong>Aplicaciones WASM</strong><small>Herramientas locales en tu navegador</small></span></a>
+    <nav class="main-nav" aria-label="Aplicaciones">
+      <button data-screen="calculator">Calculadora</button>
+      <button data-screen="graph">Graficadora</button>
+      <button data-screen="sheet">Hoja de cálculo</button>
+      <button data-screen="writer">Documentos</button>
+    </nav>
+    <span class="engine-status" id="engine-status" role="status">Cargando motor…</span>
+  </header>
+
+  <main>
+    <section class="screen home-screen active" id="screen-home">
+      <div class="hero">
+        <p class="eyebrow">RUST · WEBASSEMBLY · WEB PLATFORM</p>
+        <h1>Cuatro herramientas.<br><span>Un motor portátil.</span></h1>
+        <p>Aplicaciones independientes en una interfaz web común. Los cálculos y las fórmulas se evalúan en WebAssembly; HTML, CSS y JavaScript conectan el motor con el navegador.</p>
+        <div class="hero-actions"><button class="primary" data-screen="calculator">Empezar a explorar <span>→</span></button><span>Sin cuenta · Sin servicios externos</span></div>
+      </div>
+      <div class="app-grid">
+        <button class="app-card accent-violet" data-screen="calculator"><span class="app-symbol">∑</span><small>MATEMÁTICAS</small><strong>Calculadora científica</strong><span>Operaciones, trigonometría y vista previa del resultado.</span><b>Abrir calculadora →</b></button>
+        <button class="app-card accent-blue" data-screen="graph"><span class="app-symbol">⌁</span><small>VISUALIZACIÓN</small><strong>Graficadora</strong><span>Explora funciones en un plano con rangos ajustables.</span><b>Abrir graficadora →</b></button>
+        <button class="app-card accent-green" data-screen="sheet"><span class="app-symbol">▦</span><small>DATOS</small><strong>Hoja de cálculo</strong><span>Trabaja con celdas, referencias, fórmulas y exportación ODS.</span><b>Abrir hoja →</b></button>
+        <button class="app-card accent-orange" data-screen="writer"><span class="app-symbol">¶</span><small>ESCRITURA</small><strong>Procesador de textos</strong><span>Redacta, aplica formato y exporta documentos abiertos.</span><b>Abrir editor →</b></button>
+      </div>
+      <p class="privacy-note"><span class="privacy-dot"></span> Los datos se procesan en tu dispositivo. No hay servidor ni sincronización en la nube.</p>
+    </section>
+
+    <section class="screen tool-screen" id="screen-calculator" hidden>
+      <div class="screen-heading"><div><p class="eyebrow">MATEMÁTICAS</p><h1>Calculadora científica</h1><p>Evalúa expresiones en el motor Rust/WebAssembly.</p></div><button class="quiet" data-screen="home">← Menú</button></div>
+      <div class="calculator panel">
+        <label class="field-label" for="calc-expression">Expresión</label>
+        <input id="calc-expression" autocomplete="off" spellcheck="false" value="sin(30)^2 + cos(30)^2">
+        <div class="calc-meta"><span id="calc-mode-label">Grados</span><span id="calc-message">Vista previa</span></div>
+        <output class="calc-result" id="calc-result" aria-live="polite">1</output>
+        <div class="calc-options">
+          <div class="segmented"><button data-calc-mode="1" class="selected">DEG</button><button data-calc-mode="0">RAD</button></div>
+          <button class="quiet" id="calc-clear">Limpiar</button>
+        </div>
+        <div class="keypad" id="calc-keypad">
+          <button data-insert="sin(">sin</button><button data-insert="cos(">cos</button><button data-insert="tan(">tan</button><button data-insert="asin(">sin⁻¹</button><button data-insert="acos(">cos⁻¹</button><button data-insert="atan(">tan⁻¹</button>
+          <button data-insert="sqrt(">√</button><button data-insert="cbrt(">∛</button><button data-insert="log(">log</button><button data-insert="ln(">ln</button><button data-insert="abs(">abs</button><button data-insert="pi">π</button>
+          <button data-insert="(">(</button><button data-insert=")">)</button><button data-insert="^">xʸ</button><button data-insert="!">x!</button><button data-insert="%">%</button><button data-insert="e">e</button>
+          <button data-insert="7">7</button><button data-insert="8">8</button><button data-insert="9">9</button><button data-insert="/">÷</button><button data-insert="4">4</button><button data-insert="5">5</button>
+          <button data-insert="6">6</button><button data-insert="*">×</button><button data-insert="1">1</button><button data-insert="2">2</button><button data-insert="3">3</button><button data-insert="-">−</button>
+          <button data-insert="0">0</button><button data-insert=".">.</button><button data-action="sign">±</button><button data-insert="+">+</button><button data-action="backspace">⌫</button><button class="equals" data-action="equals">=</button>
+        </div>
+        <p class="hint">Teclado: <kbd>Enter</kbd> calcular · <kbd>Esc</kbd> limpiar · Funciones: <code>sin</code>, <code>sqrt</code>, <code>log</code>, <code>ln</code>, <code>abs</code>, <code>pi</code>, <code>e</code></p>
+      </div>
+    </section>
+
+    <section class="screen tool-screen" id="screen-graph" hidden>
+      <div class="screen-heading"><div><p class="eyebrow">VISUALIZACIÓN</p><h1>Graficadora</h1><p>Escribe una función de x y ajusta la ventana del plano.</p></div><button class="quiet" data-screen="home">← Menú</button></div>
+      <div class="graph-layout">
+        <form class="panel graph-controls" id="graph-form">
+          <label class="field-label" for="graph-expression">Función f(x)</label><input id="graph-expression" value="sin(x)" autocomplete="off" spellcheck="false">
+          <div class="range-grid">
+            <label>x mínimo<input id="x-min" type="number" value="-10" step="any"></label><label>x máximo<input id="x-max" type="number" value="10" step="any"></label>
+            <label>y mínimo<input id="y-min" type="number" value="-5" step="any"></label><label>y máximo<input id="y-max" type="number" value="5" step="any"></label>
+          </div>
+          <div class="segmented"><button type="button" data-graph-mode="0" class="selected">RAD</button><button type="button" data-graph-mode="1">DEG</button></div>
+          <button class="primary full" type="submit">Graficar función</button>
+          <div class="examples"><span>Ejemplos</span><button type="button" data-example="x^2">x²</button><button type="button" data-example="sin(x)">sin(x)</button><button type="button" data-example="1/x">1/x</button><button type="button" data-example="sqrt(x)">√x</button></div>
+          <p class="status-text" id="graph-status" role="status">Lista para graficar.</p>
+        </form>
+        <div class="panel graph-panel"><h2 id="graph-title">f(x) = sin(x)</h2><canvas id="graph-canvas" aria-label="Gráfica de la función"></canvas><div class="graph-footer"><span id="graph-range">x: −10 a 10 · y: −5 a 5</span><span id="graph-coordinates">x: — · y: —</span></div></div>
+      </div>
+    </section>
+
+    <section class="screen tool-screen" id="screen-sheet" hidden>
+      <div class="screen-heading"><div><p class="eyebrow">DATOS</p><h1>Hoja de cálculo</h1><p>Cuadrícula 8 × 24 con motor de fórmulas WebAssembly.</p></div><button class="quiet" data-screen="home">← Menú</button></div>
+      <div class="panel sheet-panel">
+        <div class="sheet-toolbar"><strong>▦ Hoja1</strong><span>ODS · OpenDocument</span><button class="primary" id="sheet-save">Descargar ODS</button></div>
+        <div class="formula-bar"><strong id="selected-cell">A1</strong><span>fx</span><input id="formula-input" aria-label="Contenido o fórmula" placeholder="Valor o fórmula, por ejemplo =SUM(A1:A4)"><button class="quiet" id="sheet-clear">Limpiar hoja</button></div>
+        <div class="grid-scroll"><table class="spreadsheet" role="grid" aria-label="Hoja de cálculo"><thead id="sheet-head"></thead><tbody id="sheet-body"></tbody></table></div>
+        <div class="sheet-status" id="sheet-status" role="status">Lista · 8 columnas × 24 filas</div>
+      </div>
+      <p class="hint">Fórmulas: <code>SUM</code>, <code>PRODUCT</code>, <code>AVERAGE</code>, <code>MIN</code>, <code>MAX</code>, <code>COUNT</code>, <code>ABS</code>, <code>SQRT</code>, <code>ROUND</code>, <code>PI</code>.</p>
+    </section>
+
+    <section class="screen tool-screen" id="screen-writer" hidden>
+      <div class="screen-heading"><div><p class="eyebrow">ESCRITURA</p><h1>Procesador de textos</h1><p>Redacta en el navegador; el motor WASM cuenta las palabras y genera ODT.</p></div><button class="quiet" data-screen="home">← Menú</button></div>
+      <div class="panel writer-panel">
+        <div class="writer-toolbar">
+          <button data-command="undo" title="Deshacer">↶</button><button data-command="redo" title="Rehacer">↷</button>
+          <select id="writer-font" aria-label="Tipo de letra"><option>Arial</option><option>Georgia</option><option>Verdana</option><option>Tahoma</option><option>Courier New</option><option>Times New Roman</option></select>
+          <select id="writer-size" aria-label="Tamaño de letra"><option value="2">10</option><option value="3" selected>12</option><option value="4">14</option><option value="5">18</option><option value="6">24</option><option value="7">36</option></select>
+          <button data-command="bold" title="Negrita"><b>B</b></button><button data-command="italic" title="Cursiva"><i>I</i></button><button data-command="underline" title="Subrayado"><u>U</u></button>
+          <button data-command="strikeThrough" title="Tachado"><s>S</s></button>
+          <select id="writer-block" aria-label="Estilo de párrafo"><option value="p">Párrafo</option><option value="h1">Título 1</option><option value="h2">Título 2</option><option value="blockquote">Cita</option></select>
+          <button data-command="insertUnorderedList" title="Lista con viñetas">• Lista</button><button data-command="insertOrderedList" title="Lista numerada">1. Lista</button>
+          <button data-command="justifyLeft" title="Alinear a la izquierda">←</button><button data-command="justifyCenter" title="Centrar">↔</button><button data-command="justifyRight" title="Alinear a la derecha">→</button><button data-command="justifyFull" title="Justificar">☷</button>
+          <label class="color-control" title="Color de texto">A <input id="writer-color" type="color" value="#242331" aria-label="Color de texto"></label>
+          <label class="color-control" title="Resaltado">▰ <input id="writer-highlight" type="color" value="#fff19c" aria-label="Color de resaltado"></label>
+          <button id="writer-link">Enlace</button><button id="writer-table">Tabla</button><button id="writer-date">Fecha</button><button id="writer-print">Imprimir</button>
+          <button id="writer-new">Nuevo</button><button id="writer-open">Abrir</button><input id="writer-file" type="file" accept=".html,.htm,.md,.txt,.odt" hidden>
+          <select id="writer-format" aria-label="Formato de guardado"><option value="html">HTML</option><option value="md">Markdown</option><option value="odt">ODT / ODF</option><option value="txt">Texto TXT</option></select>
+          <button class="primary" id="writer-save">Guardar</button>
+        </div>
+        <div class="writer-layout">
+          <label>Ancho de página <select id="writer-width"><option value="680px">Estrecho</option><option value="760px" selected>Normal</option><option value="980px">Ancho</option></select></label>
+          <label>Interlineado <select id="writer-spacing"><option value="1.2">Compacto</option><option value="1.6" selected>Normal</option><option value="2">Amplio</option></select></label>
+          <label>Color de página <input id="writer-page-color" type="color" value="#f9f8fc"></label>
+        </div>
+        <article class="writer-page" id="writer-editor" contenteditable="true" role="textbox" aria-label="Documento" aria-multiline="true"><h1>Un nuevo comienzo</h1><p>Escribe aquí. Selecciona texto y usa las herramientas de formato.</p></article>
+        <div class="writer-status"><span id="writer-status" role="status">Documento listo</span><span id="writer-count">0 palabras</span></div>
+      </div>
+      <p class="hint">ODT conserva párrafos y texto, pero no todos los estilos visuales. Markdown ofrece compatibilidad estructural; usa HTML para conservar formato enriquecido.</p>
+    </section>
+  </main>
+  <script src="app.js" defer></script>
+</body>
+</html>
